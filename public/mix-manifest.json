@@ -1,5 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/Home.js": "/js/Home.js",
     "/css/app.css": "/css/app.css",
-    "/js/Home.js": "/js/Home.js"
+    "/js/Dashboard.js": "/js/Dashboard.js",
+    "/js/Sale.js": "/js/Sale.js",
+    "/js/Settings.js": "/js/Settings.js",
+    "/js/Inventory.js": "/js/Inventory.js"
 }

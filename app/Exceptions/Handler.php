@@ -6,6 +6,8 @@ use Throwable;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+//use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -43,6 +45,9 @@ class Handler extends ExceptionHandler
                 if($exception instanceof ValidationException) {
                     $errors = $exception->validator->errors()->getMessages();
                     return $this->errorResponse($exception->getMessage(), $errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                if($exception instanceof NotFoundHttpException){                   
+                    return $this->errorResponse("No se encontraron datos asociados", null, Response::HTTP_NOT_FOUND);
                 }
             }
         });

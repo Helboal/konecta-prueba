@@ -14,7 +14,8 @@ class Product extends Model
         'reference',
         'price',
         'weight',
-        'stock'
+        'stock',
+        'category_id'
     ];
 
     public function orderDetails()

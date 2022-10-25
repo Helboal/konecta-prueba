@@ -42,7 +42,7 @@ class StoreProductRequest extends FormRequest
             'reference.required'    => 'Referencia de producto es requerido.',
             'reference.string'      => 'Referencia de producto debe contener caracteres.',
             'reference.max'         => 'Referencia de producto puede contener máximo 191 caracteres.',
-            'reference.unique'      => 'Referencia ya se encuentra en uso.',
+            'reference.unique'      => 'Referencia de producto ya se encuentra en uso.',
             'price.required'        => 'Precio de producto es requerido.',
             'price.integer'         => 'Precio de producto debe ser númerico.',
             'price.gt'              => 'Precio de producto debe ser mayor a 0.',

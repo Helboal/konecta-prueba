@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use App\Http\Resources\Product\ProductCollection;
 
 class ProductsController extends Controller
 {
+    use ApiResponser;
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +32,9 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::select('id', 'category')->get();
+
+        return $this->successResponse(['categories' => $categories]);
     }
 
     /**

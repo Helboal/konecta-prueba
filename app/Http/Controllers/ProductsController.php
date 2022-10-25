@@ -76,7 +76,7 @@ class ProductsController extends Controller
     public function show(Product $product)
     {
         $response = new ProductResource($product);
-        
+
         return $this->successResponse($response);
     }
 
@@ -86,9 +86,14 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        $categories = Category::select('id', 'category')->get();
+                
+        return $this->successResponse([
+            'categories'    => $categories,
+            'product'       => $product
+        ]);
     }
 
     /**

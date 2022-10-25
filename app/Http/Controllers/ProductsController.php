@@ -73,9 +73,11 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        $response = new ProductResource($product);
+        
+        return $this->successResponse($response);
     }
 
     /**

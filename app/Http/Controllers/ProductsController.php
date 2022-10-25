@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Resources\Product\ProductCollection;
 
 class ProductsController extends Controller
 {
@@ -13,7 +15,10 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::paginate(10);
+        $response =  new ProductCollection($products);
+
+        return $response;
     }
 
     /**

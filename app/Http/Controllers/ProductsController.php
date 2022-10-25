@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Product;
 use App\Models\Category;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductCollection;
+use App\Http\Requests\Product\StoreProductRequest;
 
 class ProductsController extends Controller
 {
@@ -43,9 +46,25 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        try {
+            $product = Product::create([
+                'name'          => $request->name,
+                'reference'     => $request->reference,
+                'price'         => $request->price,
+                'weight'        => $request->weight,
+                'stock'         => $request->stock,
+                'category_id'   => $request->category,
+            ]);
+
+            $response = new ProductResource($product);
+
+            return $this->successResponse($response);
+        }
+        catch(Exception $e) {
+            return $this->errorResponse('Error al crear el producto, por favor intente nuevamente.', $e->getMessage(), 422);
+        }              
     }
 
     /**

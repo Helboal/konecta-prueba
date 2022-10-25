@@ -2,11 +2,15 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use App\Traits\ApiResponser;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponser;
     /**
      * A list of the exception types that are not reported.
      *
@@ -34,8 +38,13 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Throwable $exception, $request) {
+            if ($request->is('api/*')) {
+                if($exception instanceof ValidationException) {
+                    $errors = $exception->validator->errors()->getMessages();
+                    return $this->errorResponse($exception->getMessage(), $errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+            }
         });
     }
 }

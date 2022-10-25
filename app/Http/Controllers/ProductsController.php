@@ -131,8 +131,15 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        try {
+            $product->delete();
+
+            return $this->successResponse(null, 'Producto eliminado exitosamente.');
+        }
+        catch(Exception $e) {
+            return $this->errorResponse('Error al eliminar el producto, por favor intente nuevamente.', $e->getMessage(), 422);
+        }
     }
 }

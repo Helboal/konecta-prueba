@@ -23,7 +23,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = Product::orderBy('id', 'desc')->get();
         $response =  new ProductCollection($products);
 
         return $response;

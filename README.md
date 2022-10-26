@@ -2,7 +2,7 @@
 
 ## Requerimientos
 ```
-PHP versión 8.0.8 o
+PHP versión 8.0.8 o 8.1
 ```
 
 ```

@@ -88,6 +88,23 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.validateForm()) {
         return;
       }
+      if (this.selectedProduct.stock < this.dataSelected.quantity) {
+        swal({
+          title: 'No se puede completar la acción.',
+          text: 'La cantidad seleccionada es superior al stock disponible.',
+          icon: 'error',
+          className: 'swalError',
+          buttons: {
+            cancel: {
+              text: "Cerrar",
+              value: null,
+              visible: true,
+              closeModal: true
+            }
+          }
+        });
+        return false;
+      }
       this.selectedProduct.quantity = this.dataSelected.quantity;
       this.data.push(this.selectedProduct);
       this.selectedProduct = '';
@@ -137,12 +154,10 @@ __webpack_require__.r(__webpack_exports__);
         var m = document.querySelector(".swal-button--cancel");
         m.setAttribute("disabled", "disabled");
         var formData = new FormData();
-        formData.append('purchase', _this2.data);
-        /* for(var key in this.data) {
-            formData.append(key, payload[key]);
-        } */
+        formData.append('purchase', JSON.stringify(_this2.data));
         return new Promise(function (resolve, reject) {
           axios.post('order', formData).then(function (response) {
+            _this2.getProducts();
             swal({
               title: "Se ha completado la compra con exito",
               icon: "success",

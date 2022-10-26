@@ -121,6 +121,18 @@ export default {
             if (!this.validateForm()) {
                 return
             }
+            if(this.selectedProduct.stock < this.dataSelected.quantity) {
+                swal({
+                    title: 'No se puede completar la acción.', 
+                    text: 'La cantidad seleccionada es superior al stock disponible.', 
+                    icon: 'error',
+                    className: 'swalError',
+                    buttons:{            
+                        cancel:{ text: "Cerrar", value: null, visible: true, closeModal: true }                         
+                    }             
+                });
+                return false;
+            }
             this.selectedProduct.quantity = this.dataSelected.quantity;
             this.data.push(this.selectedProduct);            
             this.selectedProduct = '';
@@ -150,13 +162,11 @@ export default {
                 if (!enviar) throw null;
                 var m = document.querySelector(".swal-button--cancel");
                 m.setAttribute("disabled", "disabled");
-                const formData = new FormData();
-                formData.append('purchase', this.data);
-                /* for(var key in this.data) {
-                    formData.append(key, payload[key]);
-                } */
+                const formData = new FormData();               
+                formData.append('purchase', JSON.stringify(this.data));               
                 return new Promise((resolve, reject) => {
                     axios.post('order', formData).then((response) => {
+                        this.getProducts();
                        swal({title: "Se ha completado la compra con exito",icon: "success",button: "Cerrar"})
                     })
                     .catch((error) => {

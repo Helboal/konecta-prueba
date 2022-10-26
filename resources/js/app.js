@@ -23,8 +23,6 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
 
-
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('app', require('./App.vue').default);
 
 

@@ -24,11 +24,20 @@
                         <span>Carrito vacio.</span>
                     </div>
                     <div v-else>
-                        <ul>
-                            <template v-for="(product, index) in data">
-                                <li :key="index">Producto: {{ product.name }} - Cantidad: {{ product.quantity }}</li>
-                            </template>                        
-                        </ul>
+                        <b-table-lite responsive bordered small hover :items="data" :fields="cartHeaders">
+                            <template v-slot:cell(price)="data">
+                                {{ formatNumber(data.item.price) }}
+                            </template>
+                            <template v-slot:cell(total)="data">
+                                {{ formatNumber(data.item.price*data.item.quantity) }}
+                            </template>
+                            <template v-slot:cell(Acciones)="data">
+                                <span class="text-danger" @click="destroy(data.item.id)" style="cursor: pointer;">
+                                    <b-icon icon="trash" variant="danger"></b-icon>
+                                    Eliminar
+                                </span>
+                            </template>
+                        </b-table-lite>                      
                     </div>
                 </b-card-text>
                 <b-button variant="success" @click="shop" :disabled="data.length == 0">Comprar</b-button>
@@ -93,6 +102,14 @@ export default {
                 { key: 'weight', label:'Peso', class: 'text-center'},
                 { key: 'stock', label:'Stock', class: 'text-center'},
                 { key: 'category', label:'Categoría', class: 'text-center'},
+                { key: 'Acciones', label: 'Acciones', class: 'text-center'}
+            ],
+            cartHeaders: [
+                { key: 'id', label:'Id', class: 'text-center' },
+                { key: 'name', label: 'Producto', class: 'text-center'},
+                { key: 'price', label:'Precio', class: 'text-center'},
+                { key: 'quantity', label: 'Cantidad', class: 'text-center'},
+                { key: 'total', label:'Total', class: 'text-center'},
                 { key: 'Acciones', label: 'Acciones', class: 'text-center'}
             ]
         }

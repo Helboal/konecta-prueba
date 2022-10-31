@@ -57,6 +57,31 @@ __webpack_require__.r(__webpack_exports__);
         key: 'Acciones',
         label: 'Acciones',
         "class": 'text-center'
+      }],
+      cartHeaders: [{
+        key: 'id',
+        label: 'Id',
+        "class": 'text-center'
+      }, {
+        key: 'name',
+        label: 'Producto',
+        "class": 'text-center'
+      }, {
+        key: 'price',
+        label: 'Precio',
+        "class": 'text-center'
+      }, {
+        key: 'quantity',
+        label: 'Cantidad',
+        "class": 'text-center'
+      }, {
+        key: 'total',
+        label: 'Total',
+        "class": 'text-center'
+      }, {
+        key: 'Acciones',
+        label: 'Acciones',
+        "class": 'text-center'
       }]
     };
   },
@@ -289,11 +314,47 @@ var render = function render() {
       title: "Carrito de compras",
       tag: "article"
     }
-  }, [_c("b-card-text", [_vm.data.length == 0 ? _c("div", [_c("span", [_vm._v("Carrito vacio.")])]) : _c("div", [_c("ul", [_vm._l(_vm.data, function (product, index) {
-    return [_c("li", {
-      key: index
-    }, [_vm._v("Producto: " + _vm._s(product.name) + " - Cantidad: " + _vm._s(product.quantity))])];
-  })], 2)])]), _vm._v(" "), _c("b-button", {
+  }, [_c("b-card-text", [_vm.data.length == 0 ? _c("div", [_c("span", [_vm._v("Carrito vacio.")])]) : _c("div", [_c("b-table-lite", {
+    attrs: {
+      responsive: "",
+      bordered: "",
+      small: "",
+      hover: "",
+      items: _vm.data,
+      fields: _vm.cartHeaders
+    },
+    scopedSlots: _vm._u([{
+      key: "cell(price)",
+      fn: function fn(data) {
+        return [_vm._v("\n                            " + _vm._s(_vm.formatNumber(data.item.price)) + "\n                        ")];
+      }
+    }, {
+      key: "cell(total)",
+      fn: function fn(data) {
+        return [_vm._v("\n                            " + _vm._s(_vm.formatNumber(data.item.price * data.item.quantity)) + "\n                        ")];
+      }
+    }, {
+      key: "cell(Acciones)",
+      fn: function fn(data) {
+        return [_c("span", {
+          staticClass: "text-danger",
+          staticStyle: {
+            cursor: "pointer"
+          },
+          on: {
+            click: function click($event) {
+              return _vm.destroy(data.item.id);
+            }
+          }
+        }, [_c("b-icon", {
+          attrs: {
+            icon: "trash",
+            variant: "danger"
+          }
+        }), _vm._v("\n                                Eliminar\n                            ")], 1)];
+      }
+    }])
+  })], 1)]), _vm._v(" "), _c("b-button", {
     attrs: {
       variant: "success",
       disabled: _vm.data.length == 0

@@ -24,7 +24,7 @@
                         <span>Carrito vacio.</span>
                     </div>
                     <div v-else>
-                        <b-table-lite responsive bordered small hover :items="data" :fields="cartHeaders">
+                        <b-table-lite responsive small hover :items="data" :fields="cartHeaders" foot-clone foot-row-variant="secondary">
                             <template v-slot:cell(price)="data">
                                 {{ formatNumber(data.item.price) }}
                             </template>
@@ -36,6 +36,15 @@
                                     <b-icon icon="trash" variant="danger"></b-icon>
                                     Eliminar
                                 </span>
+                            </template>
+                            <template v-slot:foot()>
+                                <span></span>
+                            </template>
+                            <template v-slot:foot(quantity)>
+                                <span>{{ totalQuantity }}</span>
+                            </template>
+                            <template v-slot:foot(total)>
+                                <span>{{ formatNumber(totalValue) }}</span>
                             </template>
                         </b-table-lite>                      
                     </div>
@@ -120,6 +129,20 @@ export default {
     computed: {
         rows() {
             return this.products.length
+        },
+        totalQuantity() {
+            const sum = this.data.reduce((a, b) => {
+                return a + parseInt(b.quantity);
+            }, 0);
+            
+            return sum;
+        },
+        totalValue() {
+            const sum = this.data.reduce((a, b) => {
+                return a + (parseInt(b.price)*b.quantity);
+            }, 0);
+            console.log(sum);
+            return sum;
         }
     },
     methods: {

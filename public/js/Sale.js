@@ -91,6 +91,19 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     rows: function rows() {
       return this.products.length;
+    },
+    totalQuantity: function totalQuantity() {
+      var sum = this.data.reduce(function (a, b) {
+        return a + parseInt(b.quantity);
+      }, 0);
+      return sum;
+    },
+    totalValue: function totalValue() {
+      var sum = this.data.reduce(function (a, b) {
+        return a + parseInt(b.price) * b.quantity;
+      }, 0);
+      console.log(sum);
+      return sum;
     }
   },
   methods: {
@@ -318,11 +331,12 @@ var render = function render() {
   }, [_c("b-card-text", [_vm.data.length == 0 ? _c("div", [_c("span", [_vm._v("Carrito vacio.")])]) : _c("div", [_c("b-table-lite", {
     attrs: {
       responsive: "",
-      bordered: "",
       small: "",
       hover: "",
       items: _vm.data,
-      fields: _vm.cartHeaders
+      fields: _vm.cartHeaders,
+      "foot-clone": "",
+      "foot-row-variant": "secondary"
     },
     scopedSlots: _vm._u([{
       key: "cell(price)",
@@ -354,6 +368,24 @@ var render = function render() {
           }
         }), _vm._v("\n                                Eliminar\n                            ")], 1)];
       }
+    }, {
+      key: "foot()",
+      fn: function fn() {
+        return [_c("span")];
+      },
+      proxy: true
+    }, {
+      key: "foot(quantity)",
+      fn: function fn() {
+        return [_c("span", [_vm._v(_vm._s(_vm.totalQuantity))])];
+      },
+      proxy: true
+    }, {
+      key: "foot(total)",
+      fn: function fn() {
+        return [_c("span", [_vm._v(_vm._s(_vm.formatNumber(_vm.totalValue)))])];
+      },
+      proxy: true
     }])
   })], 1)]), _vm._v(" "), _c("b-button", {
     attrs: {

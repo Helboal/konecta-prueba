@@ -338,22 +338,11 @@ var render = function render() {
     }, {
       key: "cell(Acciones)",
       fn: function fn(data) {
-        return [_vm.validateButtons(data.item.id) ? [_c("span", {
-          staticClass: "text-danger",
-          staticStyle: {
-            cursor: "pointer"
-          },
-          on: {
-            click: function click($event) {
-              return _vm.destroy(data.item.id);
-            }
-          }
-        }, [_c("b-icon", {
-          attrs: {
-            icon: "trash",
-            variant: "danger"
-          }
-        }), _vm._v("\n                                    Eliminar\n                                ")], 1)] : [_c("span", {
+        return [data.item.stock == 0 ? [_c("span", {
+          staticClass: "text-danger"
+        }, [_vm._v("No disponible")])] : _vm.validateButtons(data.item.id) ? [_c("span", {
+          staticClass: "text-primary"
+        }, [_vm._v("Producto agregado")])] : [_c("span", {
           staticClass: "text-success",
           staticStyle: {
             cursor: "pointer"

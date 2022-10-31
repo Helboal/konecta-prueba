@@ -48,18 +48,18 @@
                                 {{ formatNumber(data.item.price) }}
                             </template>
                             <template v-slot:cell(Acciones)="data">
-                                <template v-if="validateButtons(data.item.id)">
-                                    <span class="text-danger" @click="destroy(data.item.id)" style="cursor: pointer;">
-                                        <b-icon icon="trash" variant="danger"></b-icon>
-                                        Eliminar
-                                    </span>
+                                <template v-if="data.item.stock == 0">
+                                    <span class="text-danger">No disponible</span>
+                                </template>
+                                <template v-else-if="validateButtons(data.item.id)">
+                                    <span class="text-primary">Producto agregado</span>
                                 </template>
                                 <template v-else>                                   
                                     <span class="text-success" @click="addModal(data.item)" style="cursor: pointer;">
                                     <b-icon icon="cart-plus" variant="success"></b-icon>
                                         Agregar
                                     </span>
-                                </template>
+                                </template>                                
                             </template>
                         </b-table>
                         <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" align="center" aria-controls="products-table" first-number last-number></b-pagination>

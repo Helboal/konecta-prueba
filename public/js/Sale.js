@@ -190,6 +190,7 @@ __webpack_require__.r(__webpack_exports__);
         return new Promise(function (resolve, reject) {
           axios.post('order', formData).then(function (response) {
             _this2.getProducts();
+            _this2.data = [];
             swal({
               title: "Se ha completado la compra con exito",
               icon: "success",

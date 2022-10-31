@@ -162,7 +162,7 @@ export default {
                 return false;
             }
             this.selectedProduct.quantity = this.dataSelected.quantity;
-            this.data.push(this.selectedProduct);            
+            this.data.push(this.selectedProduct);
             this.selectedProduct = '';
             this.dataSelected.quantity = '';
             this.quantityState = null;
@@ -195,7 +195,8 @@ export default {
                 return new Promise((resolve, reject) => {
                     axios.post('order', formData).then((response) => {
                         this.getProducts();
-                       swal({title: "Se ha completado la compra con exito",icon: "success",button: "Cerrar"})
+                        this.data = [];
+                        swal({title: "Se ha completado la compra con exito",icon: "success",button: "Cerrar"})
                     })
                     .catch((error) => {
                         swal({

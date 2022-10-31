@@ -82,7 +82,8 @@ __webpack_require__.r(__webpack_exports__);
         key: 'Acciones',
         label: 'Acciones',
         "class": 'text-center'
-      }]
+      }],
+      search: ''
     };
   },
   mounted: function mounted() {
@@ -90,7 +91,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     rows: function rows() {
-      return this.products.length;
+      return this.productsFiltered.length;
     },
     totalQuantity: function totalQuantity() {
       var sum = this.data.reduce(function (a, b) {
@@ -104,13 +105,22 @@ __webpack_require__.r(__webpack_exports__);
       }, 0);
       console.log(sum);
       return sum;
+    },
+    productsFiltered: function productsFiltered() {
+      var _this = this;
+      if (this.search != '') {
+        return this.products.filter(function (product) {
+          return product.name.includes(_this.search);
+        });
+      }
+      return this.products;
     }
   },
   methods: {
     getProducts: function getProducts() {
-      var _this = this;
+      var _this2 = this;
       axios.get('products').then(function (response) {
-        _this.products = response.data.data;
+        _this2.products = response.data.data;
       })["catch"](function (error) {
         reject(error);
       });
@@ -173,7 +183,7 @@ __webpack_require__.r(__webpack_exports__);
       return false;
     },
     shop: function shop() {
-      var _this2 = this;
+      var _this3 = this;
       swal({
         title: "¿Desea completar la compra?",
         icon: "warning",
@@ -199,11 +209,11 @@ __webpack_require__.r(__webpack_exports__);
         var m = document.querySelector(".swal-button--cancel");
         m.setAttribute("disabled", "disabled");
         var formData = new FormData();
-        formData.append('purchase', JSON.stringify(_this2.data));
+        formData.append('purchase', JSON.stringify(_this3.data));
         return new Promise(function (resolve, reject) {
           axios.post('order', formData).then(function (response) {
-            _this2.getProducts();
-            _this2.data = [];
+            _this3.getProducts();
+            _this3.data = [];
             swal({
               title: "Se ha completado la compra con exito",
               icon: "success",
@@ -412,19 +422,45 @@ var render = function render() {
       },
       proxy: true
     }])
-  }, [_vm._v(" "), _c("b-card-text", [_c("b-table", {
+  }, [_vm._v(" "), _c("b-card-text", [_c("b-form-group", {
+    attrs: {
+      id: "search",
+      label: "Buscar",
+      "label-for": "input-search"
+    }
+  }, [_c("b-form-input", {
+    attrs: {
+      id: "input-search"
+    },
+    model: {
+      value: _vm.search,
+      callback: function callback($$v) {
+        _vm.search = $$v;
+      },
+      expression: "search"
+    }
+  })], 1), _vm._v(" "), _c("b-table", {
     attrs: {
       responsive: "",
       bordered: "",
       striped: "",
       hover: "",
-      items: _vm.products,
+      items: _vm.productsFiltered,
       fields: _vm.headers,
       id: "products-table",
       "per-page": _vm.perPage,
-      "current-page": _vm.currentPage
+      "current-page": _vm.currentPage,
+      "show-empty": ""
     },
     scopedSlots: _vm._u([{
+      key: "empty",
+      fn: function fn() {
+        return [_c("h5", {
+          staticClass: "text-center"
+        }, [_vm._v("No se encontraron registros")])];
+      },
+      proxy: true
+    }, {
       key: "cell(price)",
       fn: function fn(data) {
         return [_vm._v("\n                            " + _vm._s(_vm.formatNumber(data.item.price)) + "\n                        ")];

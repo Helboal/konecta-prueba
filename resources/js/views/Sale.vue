@@ -60,8 +60,14 @@
                     <template v-slot:header>
                         <h4 class="text-primary">Productos</h4>          
                     </template>
-                    <b-card-text>                        
-                        <b-table responsive bordered striped hover :items="products" :fields="headers" id="products-table" :per-page="perPage" :current-page="currentPage">
+                    <b-card-text>
+                        <b-form-group id="search" label="Buscar" label-for="input-search">
+                            <b-form-input id="input-search" v-model="search"></b-form-input>
+                        </b-form-group>
+                        <b-table responsive bordered striped hover :items="productsFiltered" :fields="headers" id="products-table" :per-page="perPage" :current-page="currentPage" show-empty>
+                            <template v-slot:empty>
+                                <h5 class="text-center">No se encontraron registros</h5>
+                            </template>
                             <template v-slot:cell(price)="data">
                                 {{ formatNumber(data.item.price) }}
                             </template>
@@ -120,7 +126,8 @@ export default {
                 { key: 'quantity', label: 'Cantidad', class: 'text-center'},
                 { key: 'total', label:'Total', class: 'text-center'},
                 { key: 'Acciones', label: 'Acciones', class: 'text-center'}
-            ]
+            ],
+            search: '',            
         }
     },
     mounted() {
@@ -128,7 +135,7 @@ export default {
     },
     computed: {
         rows() {
-            return this.products.length
+            return this.productsFiltered.length
         },
         totalQuantity() {
             const sum = this.data.reduce((a, b) => {
@@ -143,6 +150,12 @@ export default {
             }, 0);
             console.log(sum);
             return sum;
+        },
+        productsFiltered() {
+            if(this.search != '') {
+                return this.products.filter(product => product.name.includes(this.search));
+            }
+            return this.products;
         }
     },
     methods: {

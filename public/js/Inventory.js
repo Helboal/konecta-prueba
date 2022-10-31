@@ -294,7 +294,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         key: 'Acciones',
         label: 'Acciones',
         "class": 'text-center'
-      }]
+      }],
+      search: ''
     };
   },
   mounted: function mounted() {
@@ -306,7 +307,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     InventoryCreateModal: 'Inventory/inventoryCreateModal'
   })), {}, {
     rows: function rows() {
-      return this.inventories.length;
+      return this.inventoriesFiltered.length;
+    },
+    inventoriesFiltered: function inventoriesFiltered() {
+      var _this = this;
+      if (this.search != '') {
+        return this.inventories.filter(function (inventory) {
+          return inventory.name.includes(_this.search);
+        });
+      }
+      return this.inventories;
     }
   }),
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
@@ -318,20 +328,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteInventory: 'Inventory/deleteInventory'
   })), {}, {
     create: function create() {
-      var _this = this;
+      var _this2 = this;
       this.inventoryCreate()["catch"](function (error) {
-        _this.handleError(error);
+        _this2.handleError(error);
       });
       this.setModalCreate(true);
     },
     edit: function edit(value) {
-      var _this2 = this;
+      var _this3 = this;
       this.inventoryEdit(value)["catch"](function (error) {
-        _this2.handleError(error);
+        _this3.handleError(error);
       });
     },
     destroy: function destroy(value) {
-      var _this3 = this;
+      var _this4 = this;
       swal({
         title: "¿Desea eliminar los datos del producto?",
         icon: "warning",
@@ -356,7 +366,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (!enviar) throw null;
         var m = document.querySelector(".swal-button--cancel");
         m.setAttribute("disabled", "disabled");
-        return _this3.deleteInventory(value);
+        return _this4.deleteInventory(value);
       }).then(function (response) {
         swal({
           title: "Se ha eliminado el producto con éxito",
@@ -365,7 +375,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       })["catch"](function (error) {
         if (error) {
-          _this3.handleError(error);
+          _this4.handleError(error);
         } else {
           swal.stopLoading();
           swal.close();
@@ -800,19 +810,45 @@ var render = function render() {
     on: {
       click: _vm.create
     }
-  }, [_vm._v("Crear producto")]), _vm._v(" "), _c("b-table", {
+  }, [_vm._v("Crear producto")]), _vm._v(" "), _c("b-form-group", {
+    attrs: {
+      id: "search",
+      label: "Buscar",
+      "label-for": "input-search"
+    }
+  }, [_c("b-form-input", {
+    attrs: {
+      id: "input-search"
+    },
+    model: {
+      value: _vm.search,
+      callback: function callback($$v) {
+        _vm.search = $$v;
+      },
+      expression: "search"
+    }
+  })], 1), _vm._v(" "), _c("b-table", {
     attrs: {
       responsive: "",
       bordered: "",
       striped: "",
       hover: "",
-      items: _vm.inventories,
+      items: _vm.inventoriesFiltered,
       fields: _vm.headers,
       id: "products-table",
       "per-page": _vm.perPage,
-      "current-page": _vm.currentPage
+      "current-page": _vm.currentPage,
+      "show-empty": ""
     },
     scopedSlots: _vm._u([{
+      key: "empty",
+      fn: function fn() {
+        return [_c("h5", {
+          staticClass: "text-center"
+        }, [_vm._v("No se encontraron registros")])];
+      },
+      proxy: true
+    }, {
       key: "cell(price)",
       fn: function fn(data) {
         return [_vm._v("\n                            " + _vm._s(_vm.formatNumber(data.item.price)) + "\n                        ")];

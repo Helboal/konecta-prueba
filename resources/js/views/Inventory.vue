@@ -10,7 +10,13 @@
                     </template>
                     <b-card-text>
                         <b-button variant="primary" class="mb-3" @click="create">Crear producto</b-button>
-                        <b-table responsive bordered striped hover :items="inventories" :fields="headers" id="products-table" :per-page="perPage" :current-page="currentPage">
+                        <b-form-group id="search" label="Buscar" label-for="input-search">
+                            <b-form-input id="input-search" v-model="search"></b-form-input>
+                        </b-form-group>
+                        <b-table responsive bordered striped hover :items="inventoriesFiltered" :fields="headers" id="products-table" :per-page="perPage" :current-page="currentPage" show-empty>
+                            <template v-slot:empty>
+                                <h5 class="text-center">No se encontraron registros</h5>
+                            </template>
                             <template v-slot:cell(price)="data">
                                 {{ formatNumber(data.item.price) }}
                             </template>
@@ -59,7 +65,8 @@ export default {
                 { key: 'category', label:'Categoría', class: 'text-center'},
                 { key: 'created', label:'Creación', class: 'text-center'},
                 { key: 'Acciones', label: 'Acciones', class: 'text-center'}
-            ]
+            ],
+            search: ''
         }
     },
     mounted(){
@@ -72,7 +79,13 @@ export default {
             InventoryCreateModal: 'Inventory/inventoryCreateModal'
         }),
         rows() {
-            return this.inventories.length
+            return this.inventoriesFiltered.length
+        },
+        inventoriesFiltered() {
+            if(this.search != '') {
+                return this.inventories.filter(inventory => inventory.name.includes(this.search));
+            }
+            return this.inventories;
         }
     },
     methods: {

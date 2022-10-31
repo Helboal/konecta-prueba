@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
             if ($request->is('api/*')) {
                 if($exception instanceof ValidationException) {
                     $errors = $exception->validator->errors()->getMessages();
-                    return $this->errorResponse($exception->getMessage(), $errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+                    return $this->errorResponse("Se encontraron algunos errores de validación", $errors, Response::HTTP_UNPROCESSABLE_ENTITY);
                 }
                 if($exception instanceof NotFoundHttpException){                   
                     return $this->errorResponse("No se encontraron datos asociados", null, Response::HTTP_NOT_FOUND);

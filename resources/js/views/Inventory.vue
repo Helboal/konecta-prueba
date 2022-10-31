@@ -70,10 +70,14 @@ export default {
         }
     },
     mounted(){
-        this.getInventories()
-    },
+        this.setOverlay(true);
+        this.getInventories().then(() => {
+            this.setOverlay(false);
+        });
+    },    
     computed: {
         ...mapGetters({
+            overlay: 'overlay',
             inventories: 'Inventory/inventories',
             InventoryEdit: 'Inventory/inventoryEdit',
             InventoryCreateModal: 'Inventory/inventoryCreateModal'
@@ -90,6 +94,7 @@ export default {
     },
     methods: {
         ...mapMutations({
+            setOverlay: 'SET_OVERLAY',
             setModalCreate: 'Inventory/SET_INVENTORY_CREATE_MODAL',
         }),
         ...mapActions({

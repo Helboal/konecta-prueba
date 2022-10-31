@@ -299,9 +299,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   mounted: function mounted() {
-    this.getInventories();
+    var _this = this;
+    this.setOverlay(true);
+    this.getInventories().then(function () {
+      _this.setOverlay(false);
+    });
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
+    overlay: 'overlay',
     inventories: 'Inventory/inventories',
     InventoryEdit: 'Inventory/inventoryEdit',
     InventoryCreateModal: 'Inventory/inventoryCreateModal'
@@ -310,16 +315,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.inventoriesFiltered.length;
     },
     inventoriesFiltered: function inventoriesFiltered() {
-      var _this = this;
+      var _this2 = this;
       if (this.search != '') {
         return this.inventories.filter(function (inventory) {
-          return inventory.name.includes(_this.search);
+          return inventory.name.includes(_this2.search);
         });
       }
       return this.inventories;
     }
   }),
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
+    setOverlay: 'SET_OVERLAY',
     setModalCreate: 'Inventory/SET_INVENTORY_CREATE_MODAL'
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
     getInventories: 'Inventory/getInventories',
@@ -328,20 +334,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     deleteInventory: 'Inventory/deleteInventory'
   })), {}, {
     create: function create() {
-      var _this2 = this;
+      var _this3 = this;
       this.inventoryCreate()["catch"](function (error) {
-        _this2.handleError(error);
+        _this3.handleError(error);
       });
       this.setModalCreate(true);
     },
     edit: function edit(value) {
-      var _this3 = this;
+      var _this4 = this;
       this.inventoryEdit(value)["catch"](function (error) {
-        _this3.handleError(error);
+        _this4.handleError(error);
       });
     },
     destroy: function destroy(value) {
-      var _this4 = this;
+      var _this5 = this;
       swal({
         title: "¿Desea eliminar los datos del producto?",
         icon: "warning",
@@ -366,7 +372,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (!enviar) throw null;
         var m = document.querySelector(".swal-button--cancel");
         m.setAttribute("disabled", "disabled");
-        return _this4.deleteInventory(value);
+        return _this5.deleteInventory(value);
       }).then(function (response) {
         swal({
           title: "Se ha eliminado el producto con éxito",
@@ -375,7 +381,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       })["catch"](function (error) {
         if (error) {
-          _this4.handleError(error);
+          _this5.handleError(error);
         } else {
           swal.stopLoading();
           swal.close();

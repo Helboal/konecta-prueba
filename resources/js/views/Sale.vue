@@ -95,6 +95,9 @@
 </template>
 
 <script>
+
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
     name: 'Sale',
     data() {
@@ -134,6 +137,9 @@ export default {
         this.getProducts();
     },
     computed: {
+        ...mapGetters({
+            overlay: 'overlay'
+        }),
         rows() {
             return this.productsFiltered.length
         },
@@ -159,9 +165,14 @@ export default {
         }
     },
     methods: {
+        ...mapMutations({
+            setOverlay: 'SET_OVERLAY'
+        }),
         getProducts() {
+            this.setOverlay(true);
             axios.get('products').then((response) => {
                 this.products =  response.data.data
+                this.setOverlay(false);
             })
             .catch((error) => {
                 reject(error)

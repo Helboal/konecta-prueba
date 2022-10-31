@@ -244,7 +244,6 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//import Inventory from '../components/inventory/Inventory.vue'
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -255,6 +254,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      perPage: 15,
+      currentPage: 1,
       headers: [{
         key: 'id',
         label: 'Id',
@@ -297,11 +298,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.getInventories();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
     inventories: 'Inventory/inventories',
     InventoryEdit: 'Inventory/inventoryEdit',
     InventoryCreateModal: 'Inventory/inventoryCreateModal'
-  })),
+  })), {}, {
+    rows: function rows() {
+      return this.inventories.length;
+    }
+  }),
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapMutations)({
     setModalCreate: 'Inventory/SET_INVENTORY_CREATE_MODAL'
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)({
@@ -800,7 +805,10 @@ var render = function render() {
       striped: "",
       hover: "",
       items: _vm.inventories,
-      fields: _vm.headers
+      fields: _vm.headers,
+      id: "products-table",
+      "per-page": _vm.perPage,
+      "current-page": _vm.currentPage
     },
     scopedSlots: _vm._u([{
       key: "cell(price)",
@@ -848,6 +856,22 @@ var render = function render() {
         })], 1)];
       }
     }])
+  }), _vm._v(" "), _c("b-pagination", {
+    attrs: {
+      "total-rows": _vm.rows,
+      "per-page": _vm.perPage,
+      align: "center",
+      "aria-controls": "products-table",
+      "first-number": "",
+      "last-number": ""
+    },
+    model: {
+      value: _vm.currentPage,
+      callback: function callback($$v) {
+        _vm.currentPage = $$v;
+      },
+      expression: "currentPage"
+    }
   })], 1)], 1)], 1)], 1)], 1);
 };
 var staticRenderFns = [];

@@ -10,7 +10,7 @@
                     </template>
                     <b-card-text>
                         <b-button variant="primary" class="mb-3" @click="create">Crear producto</b-button>
-                        <b-table responsive bordered striped hover :items="inventories" :fields="headers">
+                        <b-table responsive bordered striped hover :items="inventories" :fields="headers" id="products-table" :per-page="perPage" :current-page="currentPage">
                             <template v-slot:cell(price)="data">
                                 {{ formatNumber(data.item.price) }}
                             </template>
@@ -26,7 +26,8 @@
                                 </span>
                             </template>
                         </b-table>
-                    </b-card-text> 
+                        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" align="center" aria-controls="products-table" first-number last-number></b-pagination>
+                    </b-card-text>
                 </b-card>
             </b-col>
         </b-row>
@@ -36,7 +37,6 @@
 <script>
 
 import { mapGetters, mapMutations, mapActions } from 'vuex';
-//import Inventory from '../components/inventory/Inventory.vue'
 import InventoryEdit from '../components/inventory/InventoryEdit.vue'
 import InventoryCreate from '../components/inventory/InventoryCreate.vue'
 
@@ -47,6 +47,8 @@ export default {
     },
     data() {
         return {
+            perPage: 15,
+            currentPage: 1,
             headers: [
                 { key: 'id', label:'Id', class: 'text-center' },
                 { key: 'name', label:'Nombre', class: 'text-center'},
@@ -68,7 +70,10 @@ export default {
             inventories: 'Inventory/inventories',
             InventoryEdit: 'Inventory/inventoryEdit',
             InventoryCreateModal: 'Inventory/inventoryCreateModal'
-        })
+        }),
+        rows() {
+            return this.inventories.length
+        }
     },
     methods: {
         ...mapMutations({

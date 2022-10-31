@@ -23,6 +23,8 @@ __webpack_require__.r(__webpack_exports__);
         quantity: ''
       },
       products: [],
+      perPage: 15,
+      currentPage: 1,
       headers: [{
         key: 'id',
         label: 'Id',
@@ -60,6 +62,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getProducts();
+  },
+  computed: {
+    rows: function rows() {
+      return this.products.length;
+    }
   },
   methods: {
     getProducts: function getProducts() {
@@ -318,7 +325,10 @@ var render = function render() {
       striped: "",
       hover: "",
       items: _vm.products,
-      fields: _vm.headers
+      fields: _vm.headers,
+      id: "products-table",
+      "per-page": _vm.perPage,
+      "current-page": _vm.currentPage
     },
     scopedSlots: _vm._u([{
       key: "cell(price)",
@@ -361,6 +371,22 @@ var render = function render() {
         }), _vm._v("\n                                    Agregar\n                                ")], 1)]];
       }
     }])
+  }), _vm._v(" "), _c("b-pagination", {
+    attrs: {
+      "total-rows": _vm.rows,
+      "per-page": _vm.perPage,
+      align: "center",
+      "aria-controls": "products-table",
+      "first-number": "",
+      "last-number": ""
+    },
+    model: {
+      value: _vm.currentPage,
+      callback: function callback($$v) {
+        _vm.currentPage = $$v;
+      },
+      expression: "currentPage"
+    }
   })], 1)], 1)], 1)], 1)], 1);
 };
 var staticRenderFns = [];

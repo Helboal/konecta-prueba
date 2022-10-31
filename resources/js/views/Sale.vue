@@ -43,7 +43,7 @@
                         <h4 class="text-primary">Productos</h4>          
                     </template>
                     <b-card-text>                        
-                        <b-table responsive bordered striped hover :items="products" :fields="headers">
+                        <b-table responsive bordered striped hover :items="products" :fields="headers" id="products-table" :per-page="perPage" :current-page="currentPage">
                             <template v-slot:cell(price)="data">
                                 {{ formatNumber(data.item.price) }}
                             </template>
@@ -62,6 +62,7 @@
                                 </template>
                             </template>
                         </b-table>
+                        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" align="center" aria-controls="products-table" first-number last-number></b-pagination>
                     </b-card-text> 
                 </b-card>
             </b-col>
@@ -82,6 +83,8 @@ export default {
                 quantity: ''
             },
             products: [],
+            perPage: 15,
+            currentPage: 1,
             headers: [
                 { key: 'id', label:'Id', class: 'text-center' },
                 { key: 'name', label:'Nombre', class: 'text-center'},
@@ -96,6 +99,11 @@ export default {
     },
     mounted() {
         this.getProducts();
+    },
+    computed: {
+        rows() {
+            return this.products.length
+        }
     },
     methods: {
         getProducts() {

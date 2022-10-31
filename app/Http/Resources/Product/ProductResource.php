@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Product;
 
+use App\Models\Category;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -16,7 +17,8 @@ class ProductResource extends JsonResource
     {
         //return parent::toArray($request);
 
-        $category = $this->category()->value('category');
+        //$category = $this->category()->value('category');
+        $category = Category::where('id', $this->category_id)->value('category');
 
         return [
             'id'            => $this->id,
@@ -26,7 +28,8 @@ class ProductResource extends JsonResource
             'weight'        => $this->weight,
             'stock'         => $this->stock,
             'category'      => $category,
-            'created'       => $this->created_at
+            'created'       => $this->created_at,
+            'total_sales'   => (int) $this->total_sales 
         ];
     }
 }

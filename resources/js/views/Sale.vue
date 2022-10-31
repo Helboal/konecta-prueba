@@ -44,6 +44,9 @@
                     </template>
                     <b-card-text>                        
                         <b-table responsive bordered striped hover :items="products" :fields="headers">
+                            <template v-slot:cell(price)="data">
+                                {{ formatNumber(data.item.price) }}
+                            </template>
                             <template v-slot:cell(Acciones)="data">
                                 <template v-if="validateButtons(data.item.id)">
                                     <span class="text-danger" @click="destroy(data.item.id)" style="cursor: pointer;">

@@ -321,6 +321,11 @@ var render = function render() {
       fields: _vm.headers
     },
     scopedSlots: _vm._u([{
+      key: "cell(price)",
+      fn: function fn(data) {
+        return [_vm._v("\n                            " + _vm._s(_vm.formatNumber(data.item.price)) + "\n                        ")];
+      }
+    }, {
       key: "cell(Acciones)",
       fn: function fn(data) {
         return [_vm.validateButtons(data.item.id) ? [_c("span", {

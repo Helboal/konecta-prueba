@@ -11,14 +11,18 @@
                     <b-card-text>
                         <b-button variant="primary" class="mb-3" @click="create">Crear producto</b-button>
                         <b-table responsive bordered striped hover :items="inventories" :fields="headers">
+                            <template v-slot:cell(price)="data">
+                                {{ formatNumber(data.item.price) }}
+                            </template>
+                            <template v-slot:cell(created)="data">
+                                {{ formatDate(data.item.created) }}
+                            </template>                        
                             <template v-slot:cell(Acciones)="data">
                                 <span class="text-primary" @click="edit(data.item.id)" style="cursor: pointer;">
-                                <b-icon icon="pencil" variant="primary"></b-icon>
-                                    Editar
+                                <b-icon icon="pencil" variant="primary"></b-icon>                                    
                                 </span>
                                 <span class="text-danger" @click="destroy(data.item.id)" style="cursor: pointer;">
-                                    <b-icon icon="trash" variant="danger"></b-icon>
-                                    Eliminar
+                                    <b-icon icon="trash" variant="danger"></b-icon>                                  
                                 </span>
                             </template>
                         </b-table>
@@ -51,6 +55,7 @@ export default {
                 { key: 'weight', label:'Peso', class: 'text-center'},
                 { key: 'stock', label:'Stock', class: 'text-center'},
                 { key: 'category', label:'Categoría', class: 'text-center'},
+                { key: 'created', label:'Creación', class: 'text-center'},
                 { key: 'Acciones', label: 'Acciones', class: 'text-center'}
             ]
         }

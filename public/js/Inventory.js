@@ -284,6 +284,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         label: 'Categoría',
         "class": 'text-center'
       }, {
+        key: 'created',
+        label: 'Creación',
+        "class": 'text-center'
+      }, {
         key: 'Acciones',
         label: 'Acciones',
         "class": 'text-center'
@@ -799,6 +803,16 @@ var render = function render() {
       fields: _vm.headers
     },
     scopedSlots: _vm._u([{
+      key: "cell(price)",
+      fn: function fn(data) {
+        return [_vm._v("\n                            " + _vm._s(_vm.formatNumber(data.item.price)) + "\n                        ")];
+      }
+    }, {
+      key: "cell(created)",
+      fn: function fn(data) {
+        return [_vm._v("\n                            " + _vm._s(_vm.formatDate(data.item.created)) + "\n                        ")];
+      }
+    }, {
       key: "cell(Acciones)",
       fn: function fn(data) {
         return [_c("span", {
@@ -816,7 +830,7 @@ var render = function render() {
             icon: "pencil",
             variant: "primary"
           }
-        }), _vm._v("\n                                Editar\n                            ")], 1), _vm._v(" "), _c("span", {
+        })], 1), _vm._v(" "), _c("span", {
           staticClass: "text-danger",
           staticStyle: {
             cursor: "pointer"
@@ -831,7 +845,7 @@ var render = function render() {
             icon: "trash",
             variant: "danger"
           }
-        }), _vm._v("\n                                Eliminar\n                            ")], 1)];
+        })], 1)];
       }
     }])
   })], 1)], 1)], 1)], 1)], 1);

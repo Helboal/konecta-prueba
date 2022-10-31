@@ -50,7 +50,35 @@ const routes = [
                     { text: 'Reportes', active: true, to: '#' }
                   ]
                 },
-                component: () => import(/* webpackChunkName: "Settings" */ '../views/Reports.vue')
+                component: () => import(/* webpackChunkName: "Settings" */ '../views/Reports.vue'),
+                children: [
+                    {
+                        path: 'more-stock',
+                        name: 'ReportsMoreStock',
+                        meta: {              
+                            breadcrumbs: [
+                              { text: 'Inicio', active: false, to: '/' },
+                              { text: 'Dashboard', active: false, to: '/dashboard' },
+                              { text: 'Reportes', active: false, to: '/reports' },
+                              { text: 'Productos con mayor stock', active: true, to: '#' }                
+                            ]
+                        },
+                        component: () => import(/* webpackChunkName: "ReportsMoreStock" */ '../components/reports/MoreStockReport.vue'),
+                    },
+                    {
+                        path: 'best-seller',
+                        name: 'ReportBestSeller',
+                        meta: {              
+                            breadcrumbs: [
+                              { text: 'Inicio', active: false, to: '/' },
+                              { text: 'Dashboard', active: false, to: '/dashboard' },
+                              { text: 'Reportes', active: false, to: '/reports' },
+                              { text: 'Productos más vendido', active: true, to: '#' }                
+                            ]
+                        },
+                        component: () => import(/* webpackChunkName: "ReportBestSeller" */ '../components/reports/BestSellerReport.vue'),
+                    }
+                ]
             },
             {
                 path: 'inventory',

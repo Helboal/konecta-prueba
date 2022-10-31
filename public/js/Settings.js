@@ -12,7 +12,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'Reports'
+  name: 'Reports',
+  data: function data() {
+    return {
+      items: [{
+        id: 1,
+        text: 'Producto con más stock',
+        to: '/reports/more-stock'
+      }, {
+        id: 2,
+        text: 'Producto más vendido',
+        to: '/reports/best-seller'
+      }]
+    };
+  }
 });
 
 /***/ }),
@@ -31,7 +44,18 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div");
+  return _c("div", [_c("h4", {
+    staticClass: "text-primary"
+  }, [_vm._v("Seleccione el reporte")]), _vm._v(" "), _c("hr"), _vm._v(" "), _c("b-row", _vm._l(_vm.items, function (item, index) {
+    return _c("b-col", {
+      key: index,
+      staticClass: "text-center"
+    }, [_c("router-link", {
+      attrs: {
+        to: item.to
+      }
+    }, [_c("b-button", [_vm._v(_vm._s(item.text))])], 1)], 1);
+  }), 1), _vm._v(" "), _c("router-view")], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

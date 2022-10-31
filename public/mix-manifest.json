@@ -5,5 +5,8 @@
     "/js/Sale.js": "/js/Sale.js",
     "/js/Settings.js": "/js/Settings.js",
     "/js/Inventory.js": "/js/Inventory.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/ReportsMoreStock.js": "/js/ReportsMoreStock.js",
+    "/js/MoreStockReport.js": "/js/MoreStockReport.js",
+    "/js/ReportBestSeller.js": "/js/ReportBestSeller.js"
 }

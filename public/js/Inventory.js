@@ -43,6 +43,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)({
     setModal: 'Inventory/SET_INVENTORY_CREATE_MODAL'
   })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)({
+    getInventories: 'Inventory/getInventories',
     inventoryStore: 'Inventory/inventoryStore'
   })), {}, {
     closeModal: function closeModal() {
@@ -89,6 +90,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         m.setAttribute("disabled", "disabled");
         return _this.inventoryStore(_this.data);
       }).then(function (response) {
+        _this.getInventories();
         swal({
           title: "Se ha creado el producto con éxito",
           icon: "success",

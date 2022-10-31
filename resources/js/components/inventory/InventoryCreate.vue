@@ -1,6 +1,6 @@
 <template>
     <b-modal size="lg" v-model="modal" centered no-close-on-esc no-close-on-backdrop>
-        <template v-slot:modal-header>      
+        <template v-slot:modal-header>
             <h5>Nuevo Producto</h5>
         </template>
         <template v-slot:default>      
@@ -25,8 +25,8 @@
             </b-form-group>            
       </b-form>
         </template>
-        <template v-slot:modal-footer>       
-            <b-button variant="secondary" @click="closeModal">Cerrar</b-button>     
+        <template v-slot:modal-footer>
+            <b-button variant="secondary" @click="closeModal">Cerrar</b-button>
             <b-button variant="primary" @click="create">Continuar</b-button>
         </template>
   </b-modal>
@@ -67,6 +67,7 @@ export default {
             setModal: 'Inventory/SET_INVENTORY_CREATE_MODAL',
         }),
         ...mapActions({
+            getInventories: 'Inventory/getInventories',
             inventoryStore: 'Inventory/inventoryStore'
         }),
         closeModal() {
@@ -95,11 +96,12 @@ export default {
             .then(enviar => {        
                 if (!enviar) throw null;
                 var m = document.querySelector(".swal-button--cancel");
-                m.setAttribute("disabled", "disabled");        
+                m.setAttribute("disabled", "disabled");
                 return this.inventoryStore(this.data);
             })
-            .then( response => {        
-                swal({title: "Se ha creado el producto con éxito",icon: "success",button: "Cerrar"})        
+            .then( response => {
+                this.getInventories();
+                swal({title: "Se ha creado el producto con éxito",icon: "success",button: "Cerrar"})
             })
             .catch((error) => {
                 if(error) {
